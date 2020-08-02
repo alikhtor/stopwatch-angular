@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef, OnDestroy, AfterViewInit } from '@angular/core';
 import { fromEvent, Subscription, interval } from 'rxjs';
-import { debounceTime, tap } from 'rxjs/operators';
+import { debounceTime, tap, debounce } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -21,15 +21,14 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.btnWaitSubscr = fromEvent<Event>(this.btnWait.nativeElement, 'dblclick').pipe(
-      debounceTime(300),
-      tap(() => {
-        if (!this.isPaused && this.isRunning) {
-          this.isPaused = true;
-          this.isRunning = false;
-          this.timerSubscr.unsubscribe();
-        }
-      })
-    ).subscribe();
+      debounceTime(300)
+    ).subscribe(() => {
+      if (!this.isPaused && this.isRunning) {
+        this.isPaused = true;
+        this.isRunning = false;
+        this.timerSubscr.unsubscribe();
+      }
+    });
   }
 
   public start(): void {
