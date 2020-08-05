@@ -28,12 +28,12 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       })
   )
   .subscribe(() => {
-      console.log('dblckick');
-      // if (!this.isPaused && this.isRunning) {
-      //   this.isPaused = true;
-      //   this.isRunning = false;
-      //   this.timerSubscr.unsubscribe();
-      // }
+      // console.log('dblckick');
+      if (!this.isPaused && this.isRunning) {
+        this.isPaused = true;
+        this.isRunning = false;
+        this.timerSubscr.unsubscribe();
+      }
   });
 
 
